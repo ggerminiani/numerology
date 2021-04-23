@@ -10,40 +10,13 @@ import {
   View,
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
-import results from "./data/results";
+import { calculate_numerology } from "./algorithm/index";
+import { LETTERS, LETTER_VALUE, NUMEROLOGY, VALUES_NUMEROLOGY } from "./data";
 import moment from "./vendors/moment";
 
 const ACCENTS = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
 const NO_ACCENTS = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
-const LETTERS = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
-const LETTER_VALUE = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-];
+
 const VOWELS = "AEIOU";
 const VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
 
@@ -55,6 +28,20 @@ const Main = () => {
   const [resultNumber, setResultNumber] = useState("");
 
   const onPress = () => {
+    const validation = [
+      {
+        data: name,
+        required: true,
+        type: null,
+        message: "Para prosseguir, informe seu nome completo.",
+      },
+      {
+        data: birthday,
+        required: true,
+        type: "date",
+      },
+    ];
+
     if (name === "") {
       Alert.alert("Atenção!", "Para prosseguir, informe seu nome completo.");
       return;
@@ -81,7 +68,19 @@ const Main = () => {
       return;
     }
 
-    calculate();
+    const { result, message } = calculate_numerology(
+      name,
+      LETTERS,
+      LETTER_VALUE,
+      VALUES_NUMEROLOGY,
+      NUMEROLOGY
+    );
+
+    setMessagem(message);
+    setResultNumber(result);
+    setShowModal(true);
+
+    //calculate();
   };
 
   const calculate = () => {
@@ -113,7 +112,7 @@ const Main = () => {
     sum += process_number(sum_consonants, "consoantes");
     sum = process_number(sum, "soma");
 
-    const msg = results.filter((e) => e.result === sum);
+    const msg = NUMEROLOGY.filter((e) => e.result === sum);
 
     setMessagem(msg[0].message);
     setResultNumber(sum);

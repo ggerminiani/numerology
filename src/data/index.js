@@ -1,4 +1,4 @@
-const results = [
+export const NUMEROLOGY = [
   {
     result: 1,
     message:
@@ -60,5 +60,36 @@ const results = [
       "Uma pessoa com este número vê a necessidade dos outros como o que há de mais importante e, portanto, gosta de praticar o amor sempre. Ela gosta de ver beleza em qualquer coisa e tem ótimas ideias e esperanças sobre a vida sentimental e familiar.",
   },
 ];
-
-export default results;
+export const ACCENTS = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
+export const NO_ACCENTS = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
+export const LETTERS = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+export const LETTER_VALUE = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+];
+export const VOWELS = "AEIOU";
+export const VALUES_NUMEROLOGY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
