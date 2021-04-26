@@ -1,3 +1,5 @@
+import moment from "../vendors/moment";
+
 export const calculate_numerology = (
   name,
   LETTERS,
@@ -54,4 +56,18 @@ export const extract_number = (number, data) => {
   }
 
   return new_number;
+};
+
+export const calculate_astrology_color = (
+  date,
+  VALUES_ASTROLOGY,
+  ASTROLOGY_COLORS
+) => {
+  var number = moment(date).format("DD");
+
+  number = extract_number(number, VALUES_ASTROLOGY);
+  var msg = NUMEROLOGY.filter((e) => e.result === sum);
+  const result = { result: msg[0].name, message: msg[0].color };
+
+  return result;
 };

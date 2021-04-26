@@ -93,3 +93,15 @@ export const LETTER_VALUE = [
 ];
 export const VOWELS = "AEIOU";
 export const VALUES_NUMEROLOGY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
+export const VALUES_ASTROLOGY = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+export const ASTROLOGY_COLORS = [
+  { result: 1, name: "vermelho", color: "#F00" },
+  { result: 2, name: "laranja", color: "#FFA500" },
+  { result: 3, name: "amarelo", color: "#FF0" },
+  { result: 4, name: "verde", color: "#080" },
+  { result: 5, name: "azul", color: "#00F" },
+  { result: 6, name: "roxo", color: "#808" },
+  { result: 7, name: "lilás", color: "#E1D6F6 " },
+  { result: 8, name: "branco", color: "#FFF" },
+  { result: 9, name: "rosa", color: "#FFC0CB" },
+];
