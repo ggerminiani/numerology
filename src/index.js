@@ -11,14 +11,15 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import { calculate_numerology } from "./algorithm/index";
-import { LETTERS, LETTER_VALUE, NUMEROLOGY, VALUES_NUMEROLOGY } from "./data";
+import {
+  LETTERS,
+  LETTER_VALUE,
+  NUMEROLOGY,
+  VALUES_NUMEROLOGY,
+  VOWELS,
+} from "./data";
+import { validation } from "./helper/";
 import moment from "./vendors/moment";
-
-const ACCENTS = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
-const NO_ACCENTS = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
-
-const VOWELS = "AEIOU";
-const VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
 
 const Main = () => {
   const [name, setName] = useState("");
@@ -28,19 +29,23 @@ const Main = () => {
   const [resultNumber, setResultNumber] = useState("");
 
   const onPress = () => {
-    const validation = [
+    const data_validation = [
       {
-        data: name,
+        value: name,
         required: true,
-        type: null,
+        type: "list",
         message: "Para prosseguir, informe seu nome completo.",
       },
       {
-        data: birthday,
+        value: birthday,
         required: true,
         type: "date",
       },
     ];
+
+    if (!validation(data_validation)) {
+      return;
+    }
 
     if (name === "") {
       Alert.alert("Atenção!", "Para prosseguir, informe seu nome completo.");
@@ -73,66 +78,13 @@ const Main = () => {
       LETTERS,
       LETTER_VALUE,
       VALUES_NUMEROLOGY,
-      NUMEROLOGY
+      NUMEROLOGY,
+      VOWELS
     );
 
     setMessagem(message);
     setResultNumber(result);
     setShowModal(true);
-
-    //calculate();
-  };
-
-  const calculate = () => {
-    var words = name.split(" ");
-    var sum = 0;
-    var sum_vowels = 0;
-    var sum_consonants = 0;
-
-    for (let index = 0; index < words.length; index++) {
-      const current = words[index].toUpperCase();
-
-      for (let x = 0; x < current.length; x++) {
-        const letter = current
-          .slice(x, x + 1)
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-
-        if (LETTERS.indexOf(letter, 0) !== -1) {
-          if (VOWELS.indexOf(letter) !== -1) {
-            sum_vowels += LETTER_VALUE[LETTERS.indexOf(letter, 0)];
-          } else {
-            sum_consonants += LETTER_VALUE[LETTERS.indexOf(letter, 0)];
-          }
-        }
-      }
-    }
-
-    sum += process_number(sum_vowels, "vogais");
-    sum += process_number(sum_consonants, "consoantes");
-    sum = process_number(sum, "soma");
-
-    const msg = NUMEROLOGY.filter((e) => e.result === sum);
-
-    setMessagem(msg[0].message);
-    setResultNumber(sum);
-    setShowModal(true);
-  };
-
-  const process_number = (number) => {
-    var new_number = 0;
-    const found = VALUES.find((element) => element === number);
-
-    if (found === undefined) {
-      for (let index = 0; index < number.toString().length; index++) {
-        new_number += Number(number.toString()[index]);
-      }
-      new_number = process_number(new_number);
-    } else {
-      new_number = number;
-    }
-
-    return new_number;
   };
 
   return (

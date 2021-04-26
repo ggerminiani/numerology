@@ -3,7 +3,8 @@ export const calculate_numerology = (
   LETTERS,
   LETTER_VALUE,
   VALUES_NUMEROLOGY,
-  NUMEROLOGY
+  NUMEROLOGY,
+  VOWELS
 ) => {
   var words = name.trim().split(" ");
   var sum = 0;
@@ -34,7 +35,7 @@ export const calculate_numerology = (
   sum = extract_number(sum, VALUES_NUMEROLOGY);
 
   const msg = NUMEROLOGY.filter((e) => e.result === sum);
-  const result = { result: sum, message: msg };
+  const result = { result: sum, message: msg[0].message };
 
   return result;
 };
@@ -47,7 +48,7 @@ export const extract_number = (number, data) => {
     for (let index = 0; index < number.toString().length; index++) {
       new_number += Number(number.toString()[index]);
     }
-    new_number = extract_number(new_number);
+    new_number = extract_number(new_number, data);
   } else {
     new_number = number;
   }
