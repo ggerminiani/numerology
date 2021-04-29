@@ -36,7 +36,7 @@ const Sheets = StyleSheet.create({
   },
   background_modal: {
     flex: 1,
-    backgroundColor: Colors.modal,
+    backgroundColor: Colors.background_modal,
     padding: 10,
   },
   resultTitle: {

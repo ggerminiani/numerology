@@ -6,4 +6,5 @@ export default Colors = {
   black: "#000",
   button: "#4c2a30",
   background_modal: "#6019",
+  disabled: "#D3D3D3",
 };

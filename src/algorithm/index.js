@@ -8,7 +8,7 @@ export const calculate_numerology = (
   NUMEROLOGY,
   VOWELS
 ) => {
-  var words = name.trim().split(" ");
+  var words = name.trim().toUpperCase().split(" ");
   var sum = 0;
   var sum_vowels = 0;
   var sum_consonants = 0;
@@ -24,17 +24,25 @@ export const calculate_numerology = (
 
       if (LETTERS.indexOf(letter, 0) !== -1) {
         if (VOWELS.indexOf(letter) !== -1) {
-          sum_vowels += LETTER_VALUE[LETTERS.indexOf(letter, 0)];
+          const { value } = LETTER_VALUE.find((e) => e.letter === letter);
+          sum_vowels += value;
         } else {
-          sum_consonants += LETTER_VALUE[LETTERS.indexOf(letter, 0)];
+          const { value } = LETTER_VALUE.find((e) => e.letter === letter);
+          sum_consonants += value;
         }
       }
     }
   }
 
-  sum += extract_number(sum_vowels, VALUES_NUMEROLOGY);
-  sum += extract_number(sum_consonants, VALUES_NUMEROLOGY);
-  sum = extract_number(sum, VALUES_NUMEROLOGY);
+  if (sum_vowels > 0) {
+    sum += extract_number(sum_vowels, VALUES_NUMEROLOGY);
+  }
+  if (sum_consonants > 0) {
+    sum += extract_number(sum_consonants, VALUES_NUMEROLOGY);
+  }
+  if (sum > 0) {
+    sum = extract_number(sum, VALUES_NUMEROLOGY);
+  }
 
   const msg = NUMEROLOGY.filter((e) => e.result === sum);
   const result = { result: sum, message: msg[0].message };
@@ -63,11 +71,49 @@ export const calculate_astrology_color = (
   VALUES_ASTROLOGY,
   ASTROLOGY_COLORS
 ) => {
-  var number = moment(date).format("DD");
-
+  var number = moment(date.split("/").reverse().join("-")).format("DD");
   number = extract_number(number, VALUES_ASTROLOGY);
-  var msg = NUMEROLOGY.filter((e) => e.result === sum);
+
+  var msg = ASTROLOGY_COLORS.filter((e) => e.result === number);
   const result = { result: msg[0].name, message: msg[0].color };
 
   return result;
+};
+
+export const baby_name = (
+  parents_result = "",
+  family_name = "",
+  NAMES = [],
+  LETTERS = "",
+  LETTER_VALUE = "",
+  VALUES_NUMEROLOGY = "",
+  NUMEROLOGY = "",
+  VOWELS = ""
+) => {
+  let results = [];
+  NAMES.map((e) => {
+    //{ key: 1, name: "Aaron", gender: "m", numerology: 4 },
+
+    const new_name = `${e.name} ${family_name}`.toUpperCase();
+    const { result } = calculate_numerology(
+      new_name,
+      LETTERS,
+      LETTER_VALUE,
+      VALUES_NUMEROLOGY,
+      NUMEROLOGY,
+      VOWELS
+    );
+
+    if (result === parents_result) {
+      results.push({
+        key: e.key,
+        name: e.name.toUpperCase(),
+        full_name: new_name,
+        gender: e.gender,
+        numerology: result,
+      });
+    }
+  });
+
+  return results;
 };

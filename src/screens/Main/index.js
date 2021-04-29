@@ -12,6 +12,11 @@ const Main = ({ navigation }) => {
         navigation={navigation}
       />
       <ButtonNavigation
+        title="Nomes para seu bebê"
+        Screen="Baby"
+        navigation={navigation}
+      />
+      <ButtonNavigation
         title="Tarô"
         Screen="Numerology"
         navigation={navigation}

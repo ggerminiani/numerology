@@ -22,7 +22,6 @@ import {
   VALUES_NUMEROLOGY,
   VOWELS,
 } from "../../data";
-import { validation } from "../../helper";
 import Sheets from "../../styles/Sheets";
 import moment from "../../vendors/moment";
 
@@ -30,7 +29,7 @@ const Numerology = ({ navigation }) => {
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [result, setResult] = useState("");
+  const [resultTest, setResultTest] = useState("");
 
   const onPress = () => {
     const data_validation = [
@@ -46,10 +45,6 @@ const Numerology = ({ navigation }) => {
         type: "date",
       },
     ];
-
-    if (!validation(data_validation)) {
-      return;
-    }
 
     if (name === "") {
       Alert.alert("Atenção!", "Para prosseguir, informe seu nome completo.");
@@ -77,6 +72,7 @@ const Numerology = ({ navigation }) => {
       return;
     }
 
+    let numerology = [];
     let { result, message } = calculate_numerology(
       name,
       LETTERS,
@@ -86,23 +82,28 @@ const Numerology = ({ navigation }) => {
       VOWELS
     );
 
-    setResult([
-      {
-        title: "Os astros leram seu nome...",
-        subtitle: `Seu número é o ${result}!`,
-        message,
-      },
-    ]);
+    numerology.push({
+      title: "Os astros leram seu nome...",
+      subtitle: `Seu número é o ${result}!`,
+      message,
+      color: "",
+    });
 
-    setShowModal(true);
-
-    let resultx = calculate_astrology_color(
+    let color = calculate_astrology_color(
       birthday,
       VALUES_ASTROLOGY,
       ASTROLOGY_COLORS
     );
-    console.log("result", resultx);
-    console.log("message", resultx);
+
+    numerology.push({
+      title: "Astrologia das Cores...",
+      subtitle: `Os astros indicam que pela sua data de nascimento, sua cor predominante é ${color.result.toUpperCase()}!`,
+      message: "",
+      color: color.message,
+    });
+
+    setResultTest(numerology);
+    setShowModal(true);
   };
 
   return (
@@ -140,7 +141,7 @@ const Numerology = ({ navigation }) => {
       <ModalResult
         showModal={showModal}
         setShowModal={(e) => setShowModal(e)}
-        data={result}
+        data={resultTest}
       />
     </View>
   );
