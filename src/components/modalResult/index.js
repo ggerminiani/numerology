@@ -96,6 +96,7 @@ const ModalResult = ({
 
   const renderElements = () => {
     if (data !== null && data !== undefined && data !== "") {
+      let quantities = 0;
       if (!list) {
         return data.map((item, index) => {
           return (
@@ -109,11 +110,30 @@ const ModalResult = ({
           );
         });
       } else {
+        let length = 0;
+        if (femaleSelected) {
+          data.map((e) => {
+            if (e.gender === "f") {
+              length += 1;
+            }
+          });
+        }
+        if (maleSelected) {
+          data.map((e) => {
+            if (e.gender === "m") {
+              length += 1;
+            }
+          });
+        }
+        if (allSelected) {
+          length = data.length;
+        }
+
         return (
           <View style={{ flex: 1 }}>
             <View style={Sheets.buttonContainer}>
               <Text style={Sheets.buttonText}>
-                Quantidade de nomes: {data.length}
+                Quantidade de nomes: {length}
               </Text>
             </View>
             {genderButton()}
@@ -129,7 +149,6 @@ const ModalResult = ({
                 if (maleSelected && item.gender !== "m") {
                   return;
                 }
-
                 return (
                   <View
                     style={[
