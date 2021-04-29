@@ -96,7 +96,6 @@ const ModalResult = ({
 
   const renderElements = () => {
     if (data !== null && data !== undefined && data !== "") {
-      let quantities = 0;
       if (!list) {
         return data.map((item, index) => {
           return (
