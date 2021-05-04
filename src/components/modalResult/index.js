@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
 import Colors from "../../styles/Colors";
 import Sheets from "../../styles/Sheets";
 import Result from "./result";
+import Search from "./search";
 
 const male = "#87CEEB";
 const female = "#FFC0CB";
@@ -16,6 +17,16 @@ const ModalResult = ({
   const [femaleSelected, setFemaleSelected] = useState(false);
   const [maleSelected, setMaleSelected] = useState(false);
   const [allSelected, setAllSelected] = useState(true);
+  const [searchName, setSearchName] = useState("");
+  const [newData, setNewData] = useState([]);
+  const [start, setStart] = useState(true);
+
+  useEffect(() => {
+    if (newData.length === 0 && searchName.trim() === "") {
+      setNewData(data);
+      setStart(false);
+    }
+  }, [newData]);
 
   const onPressAll = () => {
     setAllSelected(true);
@@ -94,10 +105,57 @@ const ModalResult = ({
     );
   };
 
+  const onChangeText = (e) => {
+    setSearchName(e);
+
+    if (e.trim() === "") {
+      setNewData(data);
+    } else {
+      let newArray = [];
+      newData.map((item) => {
+        console.log(item.name);
+        console.log(
+          item.name
+            .trim()
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              e
+                .trim()
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+            )
+        );
+
+        if (
+          item.name
+            .trim()
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              e
+                .trim()
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+            )
+        ) {
+          newArray.push(item);
+        }
+      });
+
+      setNewData(newArray);
+    }
+  };
+
+  console.log("newData", newData);
   const renderElements = () => {
     if (data !== null && data !== undefined && data !== "") {
       if (!list) {
-        return data.map((item, index) => {
+        return newData.map((item, index) => {
           return (
             <Result
               key={index}
@@ -111,21 +169,21 @@ const ModalResult = ({
       } else {
         let length = 0;
         if (femaleSelected) {
-          data.map((e) => {
+          newData.map((e) => {
             if (e.gender === "f") {
               length += 1;
             }
           });
         }
         if (maleSelected) {
-          data.map((e) => {
+          newData.map((e) => {
             if (e.gender === "m") {
               length += 1;
             }
           });
         }
         if (allSelected) {
-          length = data.length;
+          length = newData.length;
         }
 
         return (
@@ -135,13 +193,18 @@ const ModalResult = ({
                 Quantidade de nomes: {length}
               </Text>
             </View>
+            <View style={Sheets.buttonContainer}>
+              <Search
+                searchName={searchName}
+                setSearchName={(e) => onChangeText(e)}
+              />
+            </View>
+
             {genderButton()}
             <FlatList
-              data={data}
-              keyExtractor={(e) => e.key}
+              data={newData}
+              keyExtractor={(e) => e.key.toString()}
               renderItem={({ item }) => {
-                //console.log("novo item", item);
-
                 if (femaleSelected && item.gender !== "f") {
                   return;
                 }
@@ -162,7 +225,7 @@ const ModalResult = ({
                         borderRadius: 10,
                       },
                     ]}
-                    key={item.key}
+                    key={item.key.toString()}
                   >
                     <Text style={{ textAlign: "center" }}>
                       {item.full_name}
