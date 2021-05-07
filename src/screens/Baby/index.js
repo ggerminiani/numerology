@@ -24,9 +24,9 @@ import {
 import Sheets from "../../styles/Sheets";
 
 const Baby = ({ navigation }) => {
-  const [motherName, setMotherName] = useState("MELISSA");
-  const [fatherName, setFatherName] = useState("ULISSES");
-  const [familyName, setFamilyName] = useState("RIBEIRO ROMANI");
+  const [motherName, setMotherName] = useState("");
+  const [fatherName, setFatherName] = useState("");
+  const [familyName, setFamilyName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [resultTest, setResultTest] = useState("");
 

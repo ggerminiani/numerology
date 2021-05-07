@@ -19,14 +19,12 @@ const ModalResult = ({
   const [allSelected, setAllSelected] = useState(true);
   const [searchName, setSearchName] = useState("");
   const [newData, setNewData] = useState([]);
-  const [start, setStart] = useState(true);
 
   useEffect(() => {
     if (newData.length === 0 && searchName.trim() === "") {
       setNewData(data);
-      setStart(false);
     }
-  }, [newData]);
+  }, [data, newData]);
 
   const onPressAll = () => {
     setAllSelected(true);
@@ -151,7 +149,6 @@ const ModalResult = ({
     }
   };
 
-  console.log("newData", newData);
   const renderElements = () => {
     if (data !== null && data !== undefined && data !== "") {
       if (!list) {
@@ -246,7 +243,14 @@ const ModalResult = ({
         {renderElements()}
         <TouchableOpacity
           style={Sheets.buttonContainer}
-          onPress={() => setShowModal(false)}
+          onPress={() => {
+            setFemaleSelected(false);
+            setMaleSelected(false);
+            setAllSelected(true);
+            setSearchName("");
+            setNewData([]);
+            setShowModal(false);
+          }}
         >
           <Text style={Sheets.buttonText}>Fechar</Text>
         </TouchableOpacity>
