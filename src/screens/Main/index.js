@@ -17,8 +17,8 @@ const Main = ({ navigation }) => {
         navigation={navigation}
       />
       <ButtonNavigation
-        title="Tarô"
-        Screen="Numerology"
+        title="Biscoito da Sorte"
+        Screen="Phrases"
         navigation={navigation}
       />
     </View>
