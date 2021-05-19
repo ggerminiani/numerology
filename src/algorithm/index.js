@@ -117,3 +117,5 @@ export const baby_name = (
 
   return results;
 };
+
+export const phrase_daily = (name, PHRASES) => {};
