@@ -1,3 +1,4 @@
+import { addData, clearData, getData, setData } from "../data/asyncstorage";
 import moment from "../vendors/moment";
 
 export const calculate_numerology = (
@@ -118,4 +119,53 @@ export const baby_name = (
   return results;
 };
 
-export const phrase_daily = (name, PHRASES) => {};
+export const phrase_daily = async (name, PHRASES) => {
+  const clear = false;
+  //const min = 0;
+  //const max = PHRASES.length;
+  let random = random_phrases();
+  //let phrase_key = PHRASES[random].key;
+  let phrase_key = random;
+  const data = await getData(name);
+  const key = moment().format("YYYY-MM-DDss");
+  const phrase = { [key]: phrase_key };
+
+  console.log("data", data);
+
+  if (data === null) {
+    console.log("set");
+    await setData(name, phrase);
+  } else {
+    const values = JSON.parse(data);
+
+    if (Object.keys(values).indexOf(key) === -1) {
+      let skip = false;
+      console.log("values[key]", values[key]);
+      do {
+        if (values[key] === phrase_key) {
+          random = random_phrases();
+          //phrase_key = PHRASES[random].key;
+          phrase_key = random;
+        } else {
+          await addData(name, phrase);
+          skip = true;
+        }
+      } while (!skip);
+    } else {
+    }
+    console.log("keys");
+    console.log("values", values);
+    console.log("add");
+  }
+
+  if (clear) {
+    clearData();
+  }
+
+  const data2 = await getData(name);
+  console.log("data2", data2);
+};
+
+export const random_phrases = (min = 0, max = 5) => {
+  return Math.floor(Math.random() * (max - min) + min);
+};

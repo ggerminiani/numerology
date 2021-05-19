@@ -46,7 +46,7 @@ const Numerology = ({ navigation }) => {
       },
     ];
 
-    if (name === "") {
+    if (name.trim() === "") {
       Alert.alert("Atenção!", "Para prosseguir, informe seu nome completo.");
       return;
     }
