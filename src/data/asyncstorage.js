@@ -48,7 +48,7 @@ export const clearData = async (key) => {
   }
 };
 
-export const allData = async () => {
+export const allKeys = async () => {
   try {
     const data = await AsyncStorage.getAllKeys();
     return data;

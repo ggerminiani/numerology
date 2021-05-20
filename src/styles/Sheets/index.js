@@ -57,6 +57,14 @@ const Sheets = StyleSheet.create({
     letterSpacing: 1.5,
     marginHorizontal: 10,
   },
+  resultAuthor: {
+    marginTop: 20,
+    fontSize: 14,
+    textAlign: "right",
+    fontStyle: "italic",
+    letterSpacing: 1.5,
+    marginHorizontal: 10,
+  },
 });
 
 export default Sheets;

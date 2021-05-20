@@ -1,5 +1,7 @@
-import { addData, clearData, getData, setData } from "../data/asyncstorage";
+import { addData, getData, setData } from "../data/asyncstorage";
 import moment from "../vendors/moment";
+
+const KEY_STORAGE_PHRASES = "phrases";
 
 export const calculate_numerology = (
   name,
@@ -119,53 +121,65 @@ export const baby_name = (
   return results;
 };
 
-export const phrase_daily = async (name, PHRASES) => {
-  const clear = false;
-  //const min = 0;
-  //const max = PHRASES.length;
-  let random = random_phrases();
-  //let phrase_key = PHRASES[random].key;
-  let phrase_key = random;
-  const data = await getData(name);
-  const key = moment().format("YYYY-MM-DDss");
-  const phrase = { [key]: phrase_key };
+export const phrase_daily = async (PHRASES) => {
+  const min = 0;
+  const max = PHRASES.length;
+  const data = await getData(KEY_STORAGE_PHRASES);
+  const key_date = moment().format("YYYY-MM-DD");
 
-  console.log("data", data);
+  let random = random_number_range(min, max);
+  let phrase_key = PHRASES[random].key;
+  let phrase_obj = { [key_date]: phrase_key };
 
   if (data === null) {
-    console.log("set");
-    await setData(name, phrase);
+    await setData(KEY_STORAGE_PHRASES, phrase_obj);
   } else {
     const values = JSON.parse(data);
 
-    if (Object.keys(values).indexOf(key) === -1) {
+    if (Object.keys(values).indexOf(key_date) === -1) {
       let skip = false;
-      console.log("values[key]", values[key]);
       do {
-        if (values[key] === phrase_key) {
-          random = random_phrases();
-          //phrase_key = PHRASES[random].key;
-          phrase_key = random;
+        if (values[key_date] === phrase_key) {
+          random = random_number_range();
+          phrase_key = PHRASES[random].key;
         } else {
-          await addData(name, phrase);
+          phrase_obj = { [key_date]: phrase_key };
+          await addData(KEY_STORAGE_PHRASES, phrase_obj);
           skip = true;
         }
       } while (!skip);
     } else {
+      phrase_key = values[key_date];
     }
-    console.log("keys");
-    console.log("values", values);
-    console.log("add");
   }
 
-  if (clear) {
-    clearData();
-  }
+  phrase_obj = PHRASES.find((e) => e.key === phrase_key);
+  const { author, key, phrase } = phrase_obj;
+  const result = { author, key, phrase, date: key_date };
 
-  const data2 = await getData(name);
-  console.log("data2", data2);
+  return result;
 };
 
-export const random_phrases = (min = 0, max = 5) => {
+export const random_number_range = (min = 0, max = 5) => {
   return Math.floor(Math.random() * (max - min) + min);
+};
+
+export const phrases_data = async (PHRASES) => {
+  const data = await getData(KEY_STORAGE_PHRASES);
+
+  if (data === null) {
+    return null;
+  }
+
+  const values = JSON.parse(data);
+  let result = [];
+
+  Object.keys(values).forEach((e) => {
+    const date = e;
+    const phrase_key = values[e];
+    const { author, key, phrase } = PHRASES.find((e) => e.key === phrase_key);
+    result.push({ date, key, author, phrase });
+  });
+
+  return result;
 };

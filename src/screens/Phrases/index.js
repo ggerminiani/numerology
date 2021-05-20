@@ -1,59 +1,66 @@
 import React, { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { phrase_daily } from "../../algorithm";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { phrases_data, phrase_daily } from "../../algorithm";
 import ButtonNavigation from "../../components/buttonNavigation";
-import ModalResult from "../../components/modalResult";
-import TextInputPersonal from "../../components/textInputPersonal";
+import ModalPhrase from "../../components/modalPhrase";
 import { PHRASES } from "../../data";
+import { clearData } from "../../data/asyncstorage";
 import Sheets from "../../styles/Sheets";
 
 const Phrases = ({ navigation }) => {
-  const [name, setName] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [resultTest, setResultTest] = useState("");
+  const [resultPhrase, setResultPhrase] = useState([]);
 
-  const onPress = () => {
-    if (name.trim() === "") {
-      Alert.alert("Atenção!", "Para prosseguir, informe o nome do sorturdo!");
-      return;
+  const getPhrase = async () => {
+    let result = await phrase_daily(PHRASES);
+    const phrases_result = [result];
+    setResultPhrase(phrases_result);
+    setShowModal(true);
+  };
+
+  const getPhrases = async () => {
+    let phrases_result = await phrases_data(PHRASES);
+    if (phrases_result === null) {
+      Alert.alert(
+        "=/",
+        "Você ainda não tirou nenhuma frase... Para começar, tire um 'Pensamento do Dia'."
+      );
+    } else {
+      setResultPhrase(phrases_result);
+      setShowModal(true);
     }
-
-    var phrase = phrase_daily(name, PHRASES);
   };
 
   return (
     <View style={Sheets.containerFull}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={Sheets.container}
-      >
-        <TextInputPersonal
-          value={name}
-          onChangeText={(e) => setName(e)}
-          placeholder="Nome"
-          autoCapitalize="characters"
-          autoCompleteType="name"
-          keyboardType="default"
-        />
-
+      <View style={Sheets.container}>
         <TouchableOpacity
           style={Sheets.buttonContainer}
-          onPress={() => onPress()}
+          onPress={() => getPhrase()}
         >
-          <Text style={Sheets.buttonText}>Frase da Sorte</Text>
+          <Text style={Sheets.buttonText}>Pensamento do Dia</Text>
         </TouchableOpacity>
-      </KeyboardAvoidingView>
+        <TouchableOpacity
+          style={Sheets.buttonContainer}
+          onPress={() => getPhrases()}
+        >
+          <Text style={Sheets.buttonText}>Meus Pensamentos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={Sheets.buttonContainer}
+          onPress={() => {
+            clearData();
+          }}
+        >
+          <Text style={Sheets.buttonText}>Começar do Zero</Text>
+        </TouchableOpacity>
+      </View>
 
       <ButtonNavigation Screen="back" title="Voltar" navigation={navigation} />
-      <ModalResult
+      <ModalPhrase
         showModal={showModal}
         setShowModal={(e) => setShowModal(e)}
-        data={resultTest}
+        data={resultPhrase}
       />
     </View>
   );
