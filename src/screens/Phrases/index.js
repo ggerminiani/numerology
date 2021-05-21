@@ -52,7 +52,7 @@ const Phrases = ({ navigation }) => {
             clearData();
           }}
         >
-          <Text style={Sheets.buttonText}>Começar do Zero</Text>
+          <Text style={Sheets.buttonText}>Zerar Pensamentos</Text>
         </TouchableOpacity>
       </View>
 

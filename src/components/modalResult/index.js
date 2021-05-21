@@ -152,7 +152,7 @@ const ModalResult = ({
   const renderElements = () => {
     if (data !== null && data !== undefined && data !== "") {
       if (!list) {
-        return newData.map((item, index) => {
+        return data.map((item, index) => {
           return (
             <Result
               key={index}

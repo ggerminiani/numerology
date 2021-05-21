@@ -4,7 +4,6 @@ import Sheets from "../../styles/Sheets";
 import PhraseItem from "./phrase";
 
 const ModalPhrase = ({ data, showModal, setShowModal }) => {
-  console.log("ModalPhrase", data);
   return (
     <Modal visible={showModal} animationType="slide">
       <View style={Sheets.background_modal}>

@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import Baby from "../screens/Baby";
 import Main from "../screens/Main";
-import Numerology from "../screens/Numerology";
 import Phrases from "../screens/Phrases";
 
 const Routes = () => {
@@ -13,7 +12,6 @@ const Routes = () => {
     <NavigationContainer>
       <Stack.Navigator headerMode={false}>
         <Stack.Screen name="Home" component={Main} />
-        <Stack.Screen name="Numerology" component={Numerology} />
         <Stack.Screen name="Baby" component={Baby} />
         <Stack.Screen name="Phrases" component={Phrases} />
       </Stack.Navigator>
