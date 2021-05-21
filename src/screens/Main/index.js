@@ -66,27 +66,23 @@ const Main = ({ navigation }) => {
       >
         <TextInputPersonal
           value={name}
-          onChangeText={(e) => {
-            setName(e.trim().toUpperCase());
-            setSettings();
-          }}
+          onChangeText={(e) => setName(e.trim().toUpperCase())}
           placeholder="Nome Completo"
           autoCapitalize="characters"
           autoCompleteType="name"
           keyboardType="default"
+          onSubmitEditing={() => setSettings()}
         />
         <TextInputPersonal
           value={birthday}
-          onChangeText={(e) => {
-            setBirthday(e);
-            setSettings();
-          }}
+          onChangeText={(e) => setBirthday(e)}
           placeholder="Data de Nascimento"
           keyboardType="number-pad"
           type="datetime"
           options={{
             format: "DD/MM/YYYY",
           }}
+          onSubmitEditing={() => setSettings()}
         />
 
         <TouchableOpacity

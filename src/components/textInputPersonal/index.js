@@ -13,6 +13,7 @@ const TextInputPersonal = ({
   keyboardType = "default",
   autoCapitalize = "none",
   autoCompleteType = "off",
+  onSubmitEditing,
 }) => {
   return (
     <View>
@@ -26,6 +27,7 @@ const TextInputPersonal = ({
           autoCapitalize={autoCapitalize}
           autoCompleteType={autoCompleteType}
           keyboardType={keyboardType}
+          onSubmitEditing={(e) => onSubmitEditing(e)}
         />
       ) : (
         <TextInputMask
@@ -39,6 +41,7 @@ const TextInputPersonal = ({
           autoCapitalize={autoCapitalize}
           autoCompleteType={autoCompleteType}
           keyboardType={keyboardType}
+          onSubmitEditing={(e) => onSubmitEditing(e)}
         />
       )}
     </View>
