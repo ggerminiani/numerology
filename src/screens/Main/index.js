@@ -38,7 +38,6 @@ const Main = ({ navigation }) => {
   }, []);
 
   const setSettings = async () => {
-    console.log("setSettings", birthday);
     await setData(KEY_STORAGE_SETTINGS, { name, birthday });
   };
 

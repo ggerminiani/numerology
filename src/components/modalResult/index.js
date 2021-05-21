@@ -111,7 +111,6 @@ const ModalResult = ({
     } else {
       let newArray = [];
       newData.map((item) => {
-        console.log(item.name);
         console.log(
           item.name
             .trim()

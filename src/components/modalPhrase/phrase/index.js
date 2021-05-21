@@ -5,10 +5,6 @@ import moment from "../../../vendors/moment";
 import { cammelCase, capitalLetter } from "../../../vendors/string";
 
 const PhraseItem = ({ phrase, author, date, key_item }) => {
-  console.log("phrase", phrase);
-  console.log("author", author);
-  console.log("date", date);
-  console.log("key_item", key_item);
   return (
     <View
       style={[
