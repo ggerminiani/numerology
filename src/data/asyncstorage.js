@@ -56,3 +56,11 @@ export const allKeys = async () => {
     console.error(e);
   }
 };
+
+export const removeData = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (e) {
+    console.error(e);
+  }
+};

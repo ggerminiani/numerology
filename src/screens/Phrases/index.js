@@ -4,8 +4,9 @@ import { phrases_data, phrase_daily } from "../../algorithm";
 import ButtonNavigation from "../../components/buttonNavigation";
 import ModalPhrase from "../../components/modalPhrase";
 import { PHRASES } from "../../data";
-import { clearData } from "../../data/asyncstorage";
+import { removeData } from "../../data/asyncstorage";
 import Sheets from "../../styles/Sheets";
+const KEY_STORAGE_PHRASES = "phrases";
 
 const Phrases = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
@@ -49,7 +50,7 @@ const Phrases = ({ navigation }) => {
         <TouchableOpacity
           style={Sheets.buttonContainer}
           onPress={() => {
-            clearData();
+            removeData(KEY_STORAGE_PHRASES);
           }}
         >
           <Text style={Sheets.buttonText}>Zerar Pensamentos</Text>

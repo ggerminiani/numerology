@@ -22,7 +22,7 @@ export const horoscope = async (birthday) => {
 
   if (validation_result) {
     const date_range = Number(
-      moment(birthday.split("/").reverse().join("-")).format("MD")
+      moment(birthday.split("/").reverse().join("-")).format("MMDD")
     );
 
     let data = "";

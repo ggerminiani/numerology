@@ -66,10 +66,9 @@ const Main = ({ navigation }) => {
       >
         <TextInputPersonal
           value={name}
-          onChangeText={(e) => setName(e.trim().toUpperCase())}
+          onChangeText={(e) => setName(e.toUpperCase())}
           placeholder="Nome Completo"
           autoCapitalize="characters"
-          autoCompleteType="name"
           keyboardType="default"
           onSubmitEditing={() => setSettings()}
         />

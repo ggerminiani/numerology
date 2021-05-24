@@ -173,13 +173,14 @@ export const phrases_data = async (PHRASES) => {
 
   const values = JSON.parse(data);
   let result = [];
+  var obj = Object.keys(values);
 
-  Object.keys(values).forEach((e) => {
-    const date = e;
-    const phrase_key = values[e];
+  for (let index = obj.length - 1; index > -1; index--) {
+    const date = obj[index];
+    const phrase_key = values[obj[index]];
     const { author, key, phrase } = PHRASES.find((e) => e.key === phrase_key);
     result.push({ date, key, author, phrase });
-  });
+  }
 
   return result;
 };
