@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { loadAdInterstitial } from "../../ads";
 import {
   baby_name,
   calculate_numerology,
@@ -29,6 +30,10 @@ const Baby = ({ navigation }) => {
   const [familyName, setFamilyName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [resultTest, setResultTest] = useState("");
+
+  useEffect(() => {
+    loadAdInterstitial();
+  }, []);
 
   const onPress = () => {
     if (motherName === "") {

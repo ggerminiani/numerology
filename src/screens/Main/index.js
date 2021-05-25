@@ -1,3 +1,4 @@
+import { AdMobBanner } from "expo-ads-admob";
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -15,6 +16,20 @@ import { numerology } from "../../functions/numerology";
 import Sheets from "../../styles/Sheets";
 
 const KEY_STORAGE_SETTINGS = "settings";
+// const ADMOB_KEY =
+//   Platform.OS == "ios"
+//     ? "ca-app-pub-2035092180433983/3978575517"
+//     : "ca-app-pub-2035092180433983/3613605820";
+
+const adUnitID = Platform.select({
+  // https://developers.google.com/admob/ios/test-ads
+  ios: "ca-app-pub-3940256099942544/2934735716",
+  // https://developers.google.com/admob/android/test-ads
+  //android: "ca-app-pub-3940256099942544/6300978111",
+  android: "ca-app-pub-2035092180433983/3613605820",
+});
+
+const ADMOB_KEY = "ca-app-pub-2035092180433983/3613605820";
 
 const Main = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -119,6 +134,13 @@ const Main = ({ navigation }) => {
         showModal={showModalHoroscope}
         setShowModal={(e) => setShowModalHoroscope(e)}
         data={resultModalHoroscope}
+      />
+
+      <AdMobBanner
+        bannerSize="fullBanner"
+        adUnitID={adUnitID}
+        //setTestDeviceIDAsync={true}
+        onDidFailToReceiveAdWithError={(error) => console.error(error)}
       />
     </View>
   );
