@@ -33,6 +33,7 @@ const Baby = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [resultTest, setResultTest] = useState("");
   const [loading, setLoading] = useState(true);
+  const [first, setFirst] = useState(true);
 
   useEffect(() => {
     const loadAd = async () => {
@@ -40,10 +41,13 @@ const Baby = ({ navigation }) => {
       setLoading(false);
     };
 
-    loadAd();
-  }, []);
+    if (first) {
+      loadAd();
+      setFirst(false);
+    }
+  }, [resultTest]);
 
-  const onPress = () => {
+  const onPress = async () => {
     if (motherName === "") {
       Alert.alert("Atenção!", "Para prosseguir, informe o nome da mãe.");
       return;
@@ -62,9 +66,8 @@ const Baby = ({ navigation }) => {
       return;
     }
 
-    let numerology = [];
     const mother = calculate_numerology(
-      motherName,
+      motherName.concat(familyName),
       LETTERS,
       LETTER_VALUE,
       VALUES_NUMEROLOGY,
@@ -73,7 +76,7 @@ const Baby = ({ navigation }) => {
     );
 
     const father = calculate_numerology(
-      fatherName,
+      fatherName.concat(familyName),
       LETTERS,
       LETTER_VALUE,
       VALUES_NUMEROLOGY,
@@ -90,15 +93,11 @@ const Baby = ({ navigation }) => {
       VOWELS
     );
 
-    console.log("mother", mother.result);
-    console.log("father", father.result);
-    console.log("family", family.result);
-
-    let sum = mother.result + father.result + family.result;
+    //let sum = mother.result + father.result + family.result;
+    let sum = mother.result + father.result;
     sum = extract_number(sum, VALUES_NUMEROLOGY);
-    console.log("sum", sum);
 
-    const result = baby_name(
+    const result = await baby_name(
       sum,
       familyName,
       NAMES,
@@ -109,7 +108,7 @@ const Baby = ({ navigation }) => {
       VOWELS
     );
 
-    setResultTest(result);
+    await setResultTest(result);
     setShowModal(true);
   };
 
@@ -133,6 +132,7 @@ const Baby = ({ navigation }) => {
               autoCapitalize="characters"
               autoCompleteType="name"
               keyboardType="default"
+              onSubmitEditing={() => {}}
             />
             <TextInputPersonal
               value={fatherName}
@@ -141,6 +141,7 @@ const Baby = ({ navigation }) => {
               autoCapitalize="characters"
               autoCompleteType="name"
               keyboardType="default"
+              onSubmitEditing={() => {}}
             />
             <TextInputPersonal
               value={familyName}
@@ -149,6 +150,7 @@ const Baby = ({ navigation }) => {
               autoCapitalize="characters"
               autoCompleteType="name"
               keyboardType="default"
+              onSubmitEditing={() => {}}
             />
             <TouchableOpacity
               style={Sheets.buttonContainer}

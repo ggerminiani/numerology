@@ -70,7 +70,11 @@ const Main = ({ navigation }) => {
 
     await loadAdInterstitial();
 
-    let result = await horoscope(birthday);
+    const min = 0;
+    const max = 1;
+    const random = Math.floor(Math.random() * (max - min) + min);
+    console.log("random", random);
+    let result = await horoscope(random, birthday);
 
     if (result !== false) {
       setResultModalHoroscope(result);
@@ -127,7 +131,7 @@ const Main = ({ navigation }) => {
           </TouchableOpacity>
 
           <ButtonNavigation
-            title="Pensamentos do Dia"
+            title="Pensamentos"
             Screen="Phrases"
             navigation={navigation}
           />

@@ -19,12 +19,24 @@ const ModalResult = ({
   const [allSelected, setAllSelected] = useState(true);
   const [searchName, setSearchName] = useState("");
   const [newData, setNewData] = useState([]);
+  const [first, setFirst] = useState(true);
 
   useEffect(() => {
-    if (newData.length === 0 && searchName.trim() === "") {
-      setNewData(data);
+    if (showModal) {
+      const loadData = () => {
+        if (first) {
+          setNewData(data);
+          setFirst(false);
+        } else {
+          if (newData.length === 0 && searchName.trim() === "") {
+            setNewData(data);
+          }
+        }
+      };
+
+      loadData();
     }
-  }, [data, newData]);
+  }, [showModal, data, newData]);
 
   const onPressAll = () => {
     setAllSelected(true);
@@ -111,20 +123,20 @@ const ModalResult = ({
     } else {
       let newArray = [];
       newData.map((item) => {
-        console.log(
-          item.name
-            .trim()
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              e
-                .trim()
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-            )
-        );
+        // console.log(
+        //   item.name
+        //     .trim()
+        //     .toLowerCase()
+        //     .normalize("NFD")
+        //     .replace(/[\u0300-\u036f]/g, "")
+        //     .startsWith(
+        //       e
+        //         .trim()
+        //         .toLowerCase()
+        //         .normalize("NFD")
+        //         .replace(/[\u0300-\u036f]/g, "")
+        //     )
+        // );
 
         if (
           item.name
@@ -132,7 +144,7 @@ const ModalResult = ({
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
-            .includes(
+            .startsWith(
               e
                 .trim()
                 .toLowerCase()

@@ -3,7 +3,8 @@ import { getURL } from "../getURL";
 
 const BASE_URL = "https://joaobidu.com.br/horoscopo/signos/previsao-";
 
-export const extract_horoscope = async (sign, name) => {
+export const extract_horoscope_bidu = async (sign, name) => {
+  console.log("extract_horoscope_bidu");
   const url = BASE_URL.concat(sign);
   const html = await getURL(url);
 

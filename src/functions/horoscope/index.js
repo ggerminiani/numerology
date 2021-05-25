@@ -1,6 +1,12 @@
 import { Alert } from "react-native";
 import moment from "../../vendors/moment";
-import { extract_horoscope } from "./joaobidu";
+import { extract_horoscope_bidu } from "./joaobidu";
+import { extract_horoscope_meu } from "./meuhoroscopo/";
+
+const sites = [
+  { key: 0, site: "bidu" },
+  { key: 1, site: "meu" },
+];
 
 const SIGNS_LIST = [
   { initial: "0121", final: "0218", sign: "aquario", name: "aquário" },
@@ -17,7 +23,7 @@ const SIGNS_LIST = [
   { initial: "1222", final: "0120", sign: "capricornio", name: "capricórnio" },
 ];
 
-export const horoscope = async (birthday) => {
+export const horoscope = async (horoscope_key = 0, birthday) => {
   const validation_result = validation(birthday);
 
   if (validation_result) {
@@ -30,12 +36,21 @@ export const horoscope = async (birthday) => {
       if (date_range >= Number(e.initial) && date_range <= Number(e.final)) {
         data = e;
       }
-      //extract_horoscope(e.sign);
     });
 
     const { initial, final, sign, name } = data;
 
-    let result = await extract_horoscope(sign, name);
+    let result = "";
+
+    switch (horoscope_key) {
+      case 0:
+        result = await extract_horoscope_bidu(sign, name);
+        break;
+      case 1:
+        result = await extract_horoscope_meu(sign, name);
+        break;
+    }
+
     return result;
   } else {
     return false;
