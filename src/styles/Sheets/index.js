@@ -65,6 +65,11 @@ const Sheets = StyleSheet.create({
     letterSpacing: 1.5,
     marginHorizontal: 10,
   },
+  loading: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
 });
 
 export default Sheets;

@@ -1,11 +1,13 @@
 import { AdMobBanner } from "expo-ads-admob";
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { loadAdInterstitial } from "../../ads";
 import ButtonNavigation from "../../components/buttonNavigation";
 import ModalHoroscope from "../../components/modalHoroscope";
 import ModalResult from "../../components/modalResult";
@@ -13,23 +15,15 @@ import TextInputPersonal from "../../components/textInputPersonal";
 import { getData, setData } from "../../data/asyncstorage";
 import { horoscope } from "../../functions/horoscope";
 import { numerology } from "../../functions/numerology";
+import Colors from "../../styles/Colors";
 import Sheets from "../../styles/Sheets";
 
 const KEY_STORAGE_SETTINGS = "settings";
-// const ADMOB_KEY =
-//   Platform.OS == "ios"
-//     ? "ca-app-pub-2035092180433983/3978575517"
-//     : "ca-app-pub-2035092180433983/3613605820";
 
-const adUnitID = Platform.select({
-  // https://developers.google.com/admob/ios/test-ads
-  ios: "ca-app-pub-3940256099942544/2934735716",
-  // https://developers.google.com/admob/android/test-ads
-  //android: "ca-app-pub-3940256099942544/6300978111",
+const BANNER_ID = Platform.select({
+  ios: "ca-app-pub-2035092180433983/3978575517",
   android: "ca-app-pub-2035092180433983/3613605820",
 });
-
-const ADMOB_KEY = "ca-app-pub-2035092180433983/3613605820";
 
 const Main = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -38,6 +32,7 @@ const Main = ({ navigation }) => {
   const [showModalHoroscope, setShowModalHoroscope] = useState(false);
   const [resultModalNumerology, setResultModalNumerology] = useState("");
   const [resultModalHoroscope, setResultModalHoroscope] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -56,75 +51,94 @@ const Main = ({ navigation }) => {
     await setData(KEY_STORAGE_SETTINGS, { name, birthday });
   };
 
-  const onPressNumerology = () => {
+  const onPressNumerology = async () => {
+    setLoading(true);
+    await loadAdInterstitial();
+
     let result = numerology(name, birthday);
 
     if (result) {
       setResultModalNumerology(result);
       setShowModalNumerology(true);
     }
+
+    setLoading(false);
   };
 
   const onPressHoroscope = async () => {
+    setLoading(true);
+
+    await loadAdInterstitial();
+
     let result = await horoscope(birthday);
+
     if (result !== false) {
       setResultModalHoroscope(result);
       setShowModalHoroscope(true);
     }
+
+    setLoading(false);
   };
 
   return (
     <View style={Sheets.containerFull}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={Sheets.container}
-      >
-        <TextInputPersonal
-          value={name}
-          onChangeText={(e) => setName(e.toUpperCase())}
-          placeholder="Nome Completo"
-          autoCapitalize="characters"
-          keyboardType="default"
-          onSubmitEditing={() => setSettings()}
-        />
-        <TextInputPersonal
-          value={birthday}
-          onChangeText={(e) => setBirthday(e)}
-          placeholder="Data de Nascimento"
-          keyboardType="number-pad"
-          type="datetime"
-          options={{
-            format: "DD/MM/YYYY",
-          }}
-          onSubmitEditing={() => setSettings()}
-        />
-
-        <TouchableOpacity
-          style={Sheets.buttonContainer}
-          onPress={() => onPressNumerology()}
+      {loading ? (
+        <View style={Sheets.loading}>
+          <ActivityIndicator size={50} color={Colors.button} />
+          <Text>Carregando...</Text>
+        </View>
+      ) : (
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          style={Sheets.container}
         >
-          <Text style={Sheets.buttonText}>Numerologia</Text>
-        </TouchableOpacity>
+          <TextInputPersonal
+            value={name}
+            onChangeText={(e) => setName(e.toUpperCase())}
+            placeholder="Nome Completo"
+            autoCapitalize="characters"
+            keyboardType="default"
+            onSubmitEditing={() => setSettings()}
+          />
+          <TextInputPersonal
+            value={birthday}
+            onChangeText={(e) => setBirthday(e)}
+            placeholder="Data de Nascimento"
+            keyboardType="number-pad"
+            type="datetime"
+            options={{
+              format: "DD/MM/YYYY",
+            }}
+            onSubmitEditing={() => setSettings()}
+          />
 
-        <TouchableOpacity
-          style={Sheets.buttonContainer}
-          onPress={() => onPressHoroscope()}
-        >
-          <Text style={Sheets.buttonText}>Horóscopo</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={Sheets.buttonContainer}
+            onPress={() => onPressNumerology()}
+          >
+            <Text style={Sheets.buttonText}>Numerologia</Text>
+          </TouchableOpacity>
 
-        <ButtonNavigation
-          title="Pensamentos do Dia"
-          Screen="Phrases"
-          navigation={navigation}
-        />
+          <TouchableOpacity
+            style={Sheets.buttonContainer}
+            onPress={() => onPressHoroscope()}
+          >
+            <Text style={Sheets.buttonText}>Horóscopo</Text>
+          </TouchableOpacity>
 
-        <ButtonNavigation
-          title="Nomes para seu bebê"
-          Screen="Baby"
-          navigation={navigation}
-        />
-      </KeyboardAvoidingView>
+          <ButtonNavigation
+            title="Pensamentos do Dia"
+            Screen="Phrases"
+            navigation={navigation}
+          />
+
+          <ButtonNavigation
+            title="Nomes para seu bebê"
+            Screen="Baby"
+            navigation={navigation}
+          />
+        </KeyboardAvoidingView>
+      )}
       <ModalResult
         showModal={showModalNumerology}
         setShowModal={(e) => setShowModalNumerology(e)}
@@ -137,8 +151,9 @@ const Main = ({ navigation }) => {
       />
 
       <AdMobBanner
-        bannerSize="fullBanner"
-        adUnitID={adUnitID}
+        bannerSize="smartBannerPortrait"
+        adUnitID={BANNER_ID}
+        servePersonalizedAds={true}
         //setTestDeviceIDAsync={true}
         onDidFailToReceiveAdWithError={(error) => console.error(error)}
       />

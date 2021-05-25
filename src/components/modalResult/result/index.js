@@ -4,7 +4,7 @@ import Sheets from "../../../styles/Sheets/";
 
 const Result = ({ title = "", subtitle = "", message = "", color = "" }) => {
   return (
-    <View style={Sheets.background_modal}>
+    <View style={{ flex: 1 }}>
       <View
         style={[
           { flex: 1, justifyContent: "center" },
@@ -12,6 +12,8 @@ const Result = ({ title = "", subtitle = "", message = "", color = "" }) => {
             ? {
                 backgroundColor: color,
                 borderRadius: 10,
+                margin: 10,
+                padding: 5,
               }
             : "",
         ]}

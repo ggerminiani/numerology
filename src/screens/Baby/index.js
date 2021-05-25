@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Text,
   TouchableOpacity,
@@ -22,6 +23,7 @@ import {
   VALUES_NUMEROLOGY,
   VOWELS,
 } from "../../data";
+import Colors from "../../styles/Colors";
 import Sheets from "../../styles/Sheets";
 
 const Baby = ({ navigation }) => {
@@ -30,9 +32,15 @@ const Baby = ({ navigation }) => {
   const [familyName, setFamilyName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [resultTest, setResultTest] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadAdInterstitial();
+    const loadAd = async () => {
+      await loadAdInterstitial();
+      setLoading(false);
+    };
+
+    loadAd();
   }, []);
 
   const onPress = () => {
@@ -107,48 +115,62 @@ const Baby = ({ navigation }) => {
 
   return (
     <View style={Sheets.containerFull}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={Sheets.container}
-      >
-        <TextInputPersonal
-          value={motherName}
-          onChangeText={(e) => setMotherName(e)}
-          placeholder="Nome da Mãe"
-          autoCapitalize="characters"
-          autoCompleteType="name"
-          keyboardType="default"
-        />
-        <TextInputPersonal
-          value={fatherName}
-          onChangeText={(e) => setFatherName(e)}
-          placeholder="Nome do Pai"
-          autoCapitalize="characters"
-          autoCompleteType="name"
-          keyboardType="default"
-        />
-        <TextInputPersonal
-          value={familyName}
-          onChangeText={(e) => setFamilyName(e)}
-          placeholder="Sobrenome da Criança"
-          autoCapitalize="characters"
-          autoCompleteType="name"
-          keyboardType="default"
-        />
-        <TouchableOpacity
-          style={Sheets.buttonContainer}
-          onPress={() => onPress()}
-        >
-          <Text style={Sheets.buttonText}>Consultar os Astros</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-      <ButtonNavigation Screen="back" title="Voltar" navigation={navigation} />
-      <ModalResult
-        showModal={showModal}
-        setShowModal={(e) => setShowModal(e)}
-        data={resultTest}
-        list={true}
-      />
+      {loading ? (
+        <View style={Sheets.loading}>
+          <ActivityIndicator size={50} color={Colors.button} />
+          <Text>Carregando...</Text>
+        </View>
+      ) : (
+        <>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            style={Sheets.container}
+          >
+            <TextInputPersonal
+              value={motherName}
+              onChangeText={(e) => setMotherName(e)}
+              placeholder="Nome da Mãe"
+              autoCapitalize="characters"
+              autoCompleteType="name"
+              keyboardType="default"
+            />
+            <TextInputPersonal
+              value={fatherName}
+              onChangeText={(e) => setFatherName(e)}
+              placeholder="Nome do Pai"
+              autoCapitalize="characters"
+              autoCompleteType="name"
+              keyboardType="default"
+            />
+            <TextInputPersonal
+              value={familyName}
+              onChangeText={(e) => setFamilyName(e)}
+              placeholder="Sobrenome da Criança"
+              autoCapitalize="characters"
+              autoCompleteType="name"
+              keyboardType="default"
+            />
+            <TouchableOpacity
+              style={Sheets.buttonContainer}
+              onPress={() => onPress()}
+            >
+              <Text style={Sheets.buttonText}>Consultar os Astros</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+
+          <ButtonNavigation
+            Screen="back"
+            title="Voltar"
+            navigation={navigation}
+          />
+          <ModalResult
+            showModal={showModal}
+            setShowModal={(e) => setShowModal(e)}
+            data={resultTest}
+            list={true}
+          />
+        </>
+      )}
     </View>
   );
 };
