@@ -2,6 +2,7 @@ import { Alert } from "react-native";
 import moment from "../../vendors/moment";
 import { extract_horoscope_bidu } from "./joaobidu";
 import { extract_horoscope_meu } from "./meuhoroscopo/";
+import { extract_horoscope_virtual } from "./virtual/";
 
 const sites = [
   { key: 0, site: "bidu" },
@@ -47,6 +48,9 @@ export const horoscope = async (horoscope_key = 0, birthday) => {
         result = await extract_horoscope_bidu(sign, name);
         break;
       case 1:
+        result = await extract_horoscope_virtual(sign, name);
+        break;
+      case 2:
         result = await extract_horoscope_meu(sign, name);
         break;
     }

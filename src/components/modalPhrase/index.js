@@ -22,7 +22,7 @@ const ModalPhrase = ({ data, showModal, setShowModal }) => {
           }}
         />
         <TouchableOpacity
-          style={Sheets.buttonContainer}
+          style={Sheets.buttonClose}
           onPress={() => setShowModal(false)}
         >
           <Text style={Sheets.buttonText}>Fechar</Text>

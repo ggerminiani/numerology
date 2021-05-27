@@ -1,24 +1,33 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Sheets from "../../styles/Sheets";
-
-const ButtonNavigation = ({ title, Screen, navigation }) => {
+const ButtonNavigation = ({
+  icon = "",
+  title,
+  Screen,
+  navigation = null,
+  onPressReturn,
+}) => {
   const onPress = () => {
-    if (Screen === "back") {
-      navigation.goBack();
+    if (navigation !== null) {
+      if (Screen === "back") {
+        navigation.goBack();
+      } else {
+        navigation.navigate(Screen);
+      }
     } else {
-      navigation.navigate(Screen);
+      onPressReturn(true);
     }
   };
   return (
-    <View>
-      <TouchableOpacity
-        style={Sheets.buttonContainer}
-        onPress={() => onPress(Screen)}
-      >
-        <Text style={Sheets.buttonText}>{title}</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      onPress={() => onPress(Screen)}
+      style={Sheets.buttonContainer}
+    >
+      {(icon = "" ? null : <Icon name={icon} style={Sheets.icon} />)}
+      <Text style={Sheets.buttonText}>{title}</Text>
+    </TouchableOpacity>
   );
 };
 

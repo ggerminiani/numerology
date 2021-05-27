@@ -6,9 +6,9 @@
     "orientation": "portrait",
     "icon": "./src/assets/zenme.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FF8DA1"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,15 +22,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./src/assets/zenme.png",
+        "backgroundColor": "#FF8DA1"
       },
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2035092180433983~2133891245"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "sdkVersion": "40.0.0"
   }

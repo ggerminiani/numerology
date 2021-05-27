@@ -2,9 +2,9 @@ import { AdMobBanner } from "expo-ads-admob";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   KeyboardAvoidingView,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { loadAdInterstitial } from "../../ads";
@@ -68,12 +68,12 @@ const Main = ({ navigation }) => {
   const onPressHoroscope = async () => {
     setLoading(true);
 
-    await loadAdInterstitial();
+    //await loadAdInterstitial();
 
     const min = 0;
     const max = 1;
     const random = Math.floor(Math.random() * (max - min) + min);
-    console.log("random", random);
+
     let result = await horoscope(random, birthday);
 
     if (result !== false) {
@@ -86,6 +86,15 @@ const Main = ({ navigation }) => {
 
   return (
     <View style={Sheets.containerFull}>
+      <View style={{ marginTop: 80 }}>
+        <Image
+          style={{ width: 150, height: 150, alignSelf: "center" }}
+          source={require("../../assets/logo.png")}
+          resizeMethod="auto"
+          resizeMode="contain"
+        />
+      </View>
+
       {loading ? (
         <View style={Sheets.loading}>
           <ActivityIndicator size={50} color={Colors.button} />
@@ -116,31 +125,40 @@ const Main = ({ navigation }) => {
             onSubmitEditing={() => setSettings()}
           />
 
-          <TouchableOpacity
-            style={Sheets.buttonContainer}
-            onPress={() => onPressNumerology()}
-          >
-            <Text style={Sheets.buttonText}>Numerologia</Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: "row" }}>
+            <ButtonNavigation
+              title="Numerologia"
+              Screen=""
+              navigation={null}
+              icon="numeric-7-box-multiple-outline"
+              onPressReturn={(e) => onPressNumerology()}
+            />
 
-          <TouchableOpacity
-            style={Sheets.buttonContainer}
-            onPress={() => onPressHoroscope()}
-          >
-            <Text style={Sheets.buttonText}>Horóscopo</Text>
-          </TouchableOpacity>
+            <ButtonNavigation
+              title="Horóscopo"
+              Screen=""
+              navigation={null}
+              icon="zodiac-leo"
+              onPressReturn={(e) => onPressHoroscope()}
+            />
+          </View>
 
-          <ButtonNavigation
-            title="Pensamentos"
-            Screen="Phrases"
-            navigation={navigation}
-          />
+          <View style={{ flexDirection: "row" }}>
+            <ButtonNavigation
+              title="Pensamentos"
+              Screen="Phrases"
+              navigation={navigation}
+              icon="thought-bubble-outline"
+              //icon="lightbulb-outline"
+            />
 
-          <ButtonNavigation
-            title="Nomes para seu bebê"
-            Screen="Baby"
-            navigation={navigation}
-          />
+            <ButtonNavigation
+              icon="baby-face-outline"
+              title="Nomes para seu bebê"
+              Screen="Baby"
+              navigation={navigation}
+            />
+          </View>
         </KeyboardAvoidingView>
       )}
       <ModalResult

@@ -22,15 +22,27 @@ const Sheets = StyleSheet.create({
     borderRadius: 10,
   },
   buttonContainer: {
+    flex: 1,
     margin: 10,
     padding: 15,
-    backgroundColor: Colors.button,
+    backgroundColor: Colors.new_button,
     borderRadius: 10,
+    minHeight: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonClose: {
+    margin: 10,
+    padding: 15,
+    backgroundColor: Colors.new_button,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
     color: Colors.white,
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 16,
     fontStyle: "italic",
     fontWeight: "700",
   },
@@ -69,6 +81,11 @@ const Sheets = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
+  },
+  icon: {
+    fontSize: 26,
+    color: Colors.white,
+    padding: 5,
   },
 });
 

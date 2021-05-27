@@ -253,7 +253,7 @@ const ModalResult = ({
       <View style={Sheets.background_modal}>
         {renderElements()}
         <TouchableOpacity
-          style={Sheets.buttonContainer}
+          style={Sheets.buttonClose}
           onPress={() => {
             setFemaleSelected(false);
             setMaleSelected(false);

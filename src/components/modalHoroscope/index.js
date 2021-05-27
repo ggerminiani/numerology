@@ -55,27 +55,30 @@ const ModalHoroscope = ({ data, showModal, setShowModal }) => {
           <Text style={Sheets.resultTitle}>{`Horóscopo do dia - ${capitalLetter(
             data.name
           )}`}</Text>
-          {/* <Text style={Sheets.resultMessage}>{data.horoscope}</Text> */}
           {renderHoroscope()}
-          <Text
-            style={[
-              Sheets.resultMessage,
-              {
-                marginTop: 20,
-                textDecorationStyle: "solid",
-                textDecorationLine: "underline",
-              },
-            ]}
-          >
-            Detalhes:
-          </Text>
-          <View style={{ marginTop: 10, marginLeft: 20 }}>
-            {renderDetails()}
-          </View>
+          {data !== undefined || data.details.length === 0 ? null : (
+            <>
+              <Text
+                style={[
+                  Sheets.resultMessage,
+                  {
+                    marginTop: 20,
+                    textDecorationStyle: "solid",
+                    textDecorationLine: "underline",
+                  },
+                ]}
+              >
+                Detalhes:
+              </Text>
+              <View style={{ marginTop: 10, marginLeft: 20 }}>
+                {renderDetails()}
+              </View>
+            </>
+          )}
         </ScrollView>
 
         <TouchableOpacity
-          style={Sheets.buttonContainer}
+          style={Sheets.buttonClose}
           onPress={() => setShowModal(false)}
         >
           <Text style={Sheets.buttonText}>Fechar</Text>
