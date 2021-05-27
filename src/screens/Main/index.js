@@ -71,9 +71,9 @@ const Main = ({ navigation }) => {
     //await loadAdInterstitial();
 
     const min = 0;
-    const max = 1;
+    const max = 2;
     const random = Math.floor(Math.random() * (max - min) + min);
-
+    console.log("random", random);
     let result = await horoscope(random, birthday);
 
     if (result !== false) {

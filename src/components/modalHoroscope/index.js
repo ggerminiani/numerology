@@ -56,7 +56,7 @@ const ModalHoroscope = ({ data, showModal, setShowModal }) => {
             data.name
           )}`}</Text>
           {renderHoroscope()}
-          {data !== undefined || data.details.length === 0 ? null : (
+          {data === undefined || data.details.length === 0 ? null : (
             <>
               <Text
                 style={[

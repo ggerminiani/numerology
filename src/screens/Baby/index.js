@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Text,
   TouchableOpacity,
@@ -153,7 +154,7 @@ const Baby = ({ navigation }) => {
               onSubmitEditing={() => {}}
             />
             <TouchableOpacity
-              style={Sheets.buttonContainer}
+              style={Sheets.buttonClose}
               onPress={() => onPress()}
             >
               <Text style={Sheets.buttonText}>Consultar os Astros</Text>

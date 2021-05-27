@@ -62,19 +62,19 @@ const Phrases = ({ navigation }) => {
         <>
           <View style={Sheets.container}>
             <TouchableOpacity
-              style={Sheets.buttonContainer}
+              style={Sheets.buttonClose}
               onPress={() => getPhrase()}
             >
               <Text style={Sheets.buttonText}>Pensamento do Dia</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={Sheets.buttonContainer}
+              style={Sheets.buttonClose}
               onPress={() => getPhrases()}
             >
               <Text style={Sheets.buttonText}>Meus Pensamentos</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={Sheets.buttonContainer}
+              style={Sheets.buttonClose}
               onPress={() => {
                 removeData(KEY_STORAGE_PHRASES);
               }}

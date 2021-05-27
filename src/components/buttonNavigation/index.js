@@ -23,9 +23,9 @@ const ButtonNavigation = ({
   return (
     <TouchableOpacity
       onPress={() => onPress(Screen)}
-      style={Sheets.buttonContainer}
+      style={Screen === "back" ? Sheets.buttonClose : Sheets.buttonContainer}
     >
-      {(icon = "" ? null : <Icon name={icon} style={Sheets.icon} />)}
+      {icon === "" ? null : <Icon name={icon} style={Sheets.icon} />}
       <Text style={Sheets.buttonText}>{title}</Text>
     </TouchableOpacity>
   );

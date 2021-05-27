@@ -4,11 +4,6 @@ import { extract_horoscope_bidu } from "./joaobidu";
 import { extract_horoscope_meu } from "./meuhoroscopo/";
 import { extract_horoscope_virtual } from "./virtual/";
 
-const sites = [
-  { key: 0, site: "bidu" },
-  { key: 1, site: "meu" },
-];
-
 const SIGNS_LIST = [
   { initial: "0121", final: "0218", sign: "aquario", name: "aquário" },
   { initial: "0219", final: "0320", sign: "peixes", name: "peixes" },
