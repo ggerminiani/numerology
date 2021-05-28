@@ -31,7 +31,7 @@ const ModalHoroscope = ({ data, showModal, setShowModal }) => {
       }
     }
   };
-
+  console.log(data);
   const renderDetails = () => {
     if (typeof data === "object") {
       return data.details.map((e) => {
@@ -56,7 +56,8 @@ const ModalHoroscope = ({ data, showModal, setShowModal }) => {
             data.name
           )}`}</Text>
           {renderHoroscope()}
-          {data === undefined || data.details.length === 0 ? null : (
+          {data === undefined || data === "" ? null : data.details.length ===
+            0 ? null : (
             <>
               <Text
                 style={[
