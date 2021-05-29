@@ -2,6 +2,7 @@ import { addData, getData, setData } from "../data/asyncstorage";
 import moment from "../vendors/moment";
 
 const KEY_STORAGE_PHRASES = "phrases";
+const KEY_STORAGE_HOROSCOPE = "horoscope";
 
 export const calculate_numerology = (
   name,
@@ -183,4 +184,27 @@ export const phrases_data = async (PHRASES) => {
   }
 
   return result;
+};
+
+export const horoscope_day = async (maximum) => {
+  const min = 0;
+  const max = maximum;
+  const data = await getData(KEY_STORAGE_HOROSCOPE);
+  const key_date = moment().format("YYYY-MM-DD");
+
+  let random = random_number_range(min, max);
+  let phrase_obj = { [key_date]: random };
+
+  if (data === null) {
+    await setData(KEY_STORAGE_HOROSCOPE, phrase_obj);
+  } else {
+    const values = JSON.parse(data);
+    if (values[Object.keys(values).indexOf(key_date)] === undefined) {
+      await addData(KEY_STORAGE_HOROSCOPE, phrase_obj);
+    } else {
+      random = values[key_date];
+    }
+  }
+
+  return random;
 };

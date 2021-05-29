@@ -4,9 +4,9 @@ import { getURL } from "../getURL";
 const BASE_URL = "https://www.meu-horoscopo-do-dia.com/horoscopos/hoje/";
 const EXTENSION = ".html";
 
-export const extract_horoscope_meu = async (sign, name) => {
+export const extract_horoscope_meu = async (zodiac, name) => {
   console.log("extract_horoscope_meu");
-  const url = BASE_URL.concat(sign).concat(EXTENSION);
+  const url = BASE_URL.concat(zodiac).concat(EXTENSION);
   const html = await getURL(url);
   console.log("url", url);
 
@@ -61,7 +61,7 @@ export const extract_horoscope_meu = async (sign, name) => {
     //   });
     // });
 
-    const result = { horoscope, details, sign, name };
+    const result = { horoscope, details, zodiac, name };
     return result;
   } else {
     return false;

@@ -3,9 +3,9 @@ import { getURL } from "../getURL";
 
 const BASE_URL = "https://joaobidu.com.br/horoscopo/signos/previsao-";
 
-export const extract_horoscope_bidu = async (sign, name) => {
+export const extract_horoscope_bidu = async (zodiac, name) => {
   console.log("extract_horoscope_bidu");
-  const url = BASE_URL.concat(sign);
+  const url = BASE_URL.concat(zodiac);
   const html = await getURL(url);
 
   if (html !== false) {
@@ -87,7 +87,7 @@ export const extract_horoscope_bidu = async (sign, name) => {
       }
     });
 
-    const result = { horoscope, details, sign, name };
+    const result = { horoscope, details, zodiac, name };
     return result;
   } else {
     return false;

@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { loadAdInterstitial } from "../../ads";
+import { horoscope_day } from "../../algorithm";
 import ButtonNavigation from "../../components/buttonNavigation";
 import ModalHoroscope from "../../components/modalHoroscope";
 import ModalResult from "../../components/modalResult";
@@ -19,6 +20,7 @@ import Colors from "../../styles/Colors";
 import Sheets from "../../styles/Sheets";
 
 const KEY_STORAGE_SETTINGS = "settings";
+const KEY_STORAGE_HOROSCOPE = "horoscope";
 
 const BANNER_ID = Platform.select({
   ios: "ca-app-pub-2035092180433983/3978575517",
@@ -70,10 +72,7 @@ const Main = ({ navigation }) => {
 
     //await loadAdInterstitial();
 
-    const min = 0;
-    const max = 2;
-    const random = Math.floor(Math.random() * (max - min) + min);
-    console.log("random", random);
+    let random = await horoscope_day(2);
     let result = await horoscope(random, birthday);
 
     if (result !== false) {

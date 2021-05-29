@@ -31,7 +31,6 @@ const ModalHoroscope = ({ data, showModal, setShowModal }) => {
       }
     }
   };
-  console.log(data);
   const renderDetails = () => {
     if (typeof data === "object") {
       return data.details.map((e) => {
