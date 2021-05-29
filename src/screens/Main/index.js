@@ -147,7 +147,6 @@ const Main = ({ navigation }) => {
               Screen="Phrases"
               navigation={navigation}
               icon="thought-bubble-outline"
-              //icon="lightbulb-outline"
             />
 
             <ButtonNavigation
@@ -174,7 +173,6 @@ const Main = ({ navigation }) => {
         bannerSize="smartBannerPortrait"
         adUnitID={BANNER_ID}
         servePersonalizedAds={true}
-        //setTestDeviceIDAsync={true}
         onDidFailToReceiveAdWithError={(error) => console.error(error)}
       />
     </View>
