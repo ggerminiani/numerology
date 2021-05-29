@@ -20,7 +20,6 @@ import Colors from "../../styles/Colors";
 import Sheets from "../../styles/Sheets";
 
 const KEY_STORAGE_SETTINGS = "settings";
-const KEY_STORAGE_HOROSCOPE = "horoscope";
 
 const BANNER_ID = Platform.select({
   ios: "ca-app-pub-2035092180433983/3978575517",
