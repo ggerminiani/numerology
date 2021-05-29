@@ -199,7 +199,7 @@ export const horoscope_day = async (maximum) => {
     await setData(KEY_STORAGE_HOROSCOPE, phrase_obj);
   } else {
     const values = JSON.parse(data);
-    if (values[Object.keys(values).indexOf(key_date)] === undefined) {
+    if (Object.keys(values).indexOf(key_date) === -1) {
       await addData(KEY_STORAGE_HOROSCOPE, phrase_obj);
     } else {
       random = values[key_date];

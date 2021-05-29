@@ -70,7 +70,7 @@ const Main = ({ navigation }) => {
   const onPressHoroscope = async () => {
     setLoading(true);
 
-    //await loadAdInterstitial();
+    await loadAdInterstitial();
 
     let random = await horoscope_day(2);
     let result = await horoscope(random, birthday);

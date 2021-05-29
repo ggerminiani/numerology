@@ -61,7 +61,7 @@ const ModalResult = ({
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity
           style={[
-            Sheets.buttonContainer,
+            Sheets.buttonClose,
             { flex: 1, backgroundColor: Colors.button },
             allSelected ? "" : { backgroundColor: Colors.disabled },
           ]}
@@ -79,7 +79,7 @@ const ModalResult = ({
         </TouchableOpacity>
         <TouchableOpacity
           style={[
-            Sheets.buttonContainer,
+            Sheets.buttonClose,
             { flex: 1, backgroundColor: female },
             femaleSelected ? "" : { backgroundColor: Colors.disabled },
           ]}
@@ -96,7 +96,7 @@ const ModalResult = ({
         </TouchableOpacity>
         <TouchableOpacity
           style={[
-            Sheets.buttonContainer,
+            Sheets.buttonClose,
             { flex: 1, backgroundColor: male },
             maleSelected ? "" : { backgroundColor: Colors.disabled },
           ]}
@@ -196,12 +196,12 @@ const ModalResult = ({
 
         return (
           <View style={{ flex: 1 }}>
-            <View style={Sheets.buttonContainer}>
+            <View style={Sheets.buttonClose}>
               <Text style={Sheets.buttonText}>
                 Quantidade de nomes: {length}
               </Text>
             </View>
-            <View style={Sheets.buttonContainer}>
+            <View style={Sheets.buttonClose}>
               <Search
                 searchName={searchName}
                 setSearchName={(e) => onChangeText(e)}
