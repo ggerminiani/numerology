@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import moment from "../../vendors/moment";
 import { extract_horoscope_bidu } from "./joaobidu";
 import { extract_horoscope_meu } from "./meuhoroscopo/";
@@ -21,55 +20,32 @@ const SIGNS_LIST = [
 ];
 
 export const horoscope = async (horoscope_key = 0, birthday) => {
-  const validation_result = validation(birthday);
+  const date_range = Number(
+    moment(birthday.split("/").reverse().join("-")).format("MMDD")
+  );
 
-  if (validation_result) {
-    const date_range = Number(
-      moment(birthday.split("/").reverse().join("-")).format("MMDD")
-    );
-
-    let data = "";
-    SIGNS_LIST.map((e) => {
-      if (date_range >= Number(e.initial) && date_range <= Number(e.final)) {
-        data = e;
-      }
-    });
-
-    const { initial, final, zodiac, name } = data;
-
-    let result = "";
-
-    switch (horoscope_key) {
-      case 0:
-        result = await extract_horoscope_bidu(zodiac, name);
-        break;
-      case 1:
-        result = await extract_horoscope_virtual(zodiac, name);
-        break;
-      case 2:
-        result = await extract_horoscope_meu(zodiac, name);
-        break;
+  let data = "";
+  SIGNS_LIST.map((e) => {
+    if (date_range >= Number(e.initial) && date_range <= Number(e.final)) {
+      data = e;
     }
+  });
 
-    return result;
-  } else {
-    return false;
-  }
-};
+  const { initial, final, zodiac, name } = data;
 
-export const validation = (birthday) => {
-  if (birthday === undefined || birthday === "") {
-    Alert.alert("Atenção!", "Para prosseguir, informe sua data de nascimento.");
-    return false;
-  }
+  let result = "";
 
-  if (!moment(birthday.split("/").reverse().join("-")).isValid()) {
-    Alert.alert(
-      "Atenção!",
-      "Para prosseguir, informe uma data de nascimento válida."
-    );
-    return false;
+  switch (horoscope_key) {
+    case 0:
+      result = await extract_horoscope_bidu(zodiac, name);
+      break;
+    case 1:
+      result = await extract_horoscope_virtual(zodiac, name);
+      break;
+    case 2:
+      result = await extract_horoscope_meu(zodiac, name);
+      break;
   }
 
-  return true;
+  return result;
 };

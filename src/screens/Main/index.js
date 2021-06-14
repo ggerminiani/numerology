@@ -2,6 +2,7 @@ import { AdMobBanner } from "expo-ads-admob";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Image,
   KeyboardAvoidingView,
   Text,
@@ -18,6 +19,7 @@ import { horoscope } from "../../functions/horoscope";
 import { numerology } from "../../functions/numerology";
 import Colors from "../../styles/Colors";
 import Sheets from "../../styles/Sheets";
+import moment from "../../vendors/moment";
 
 const KEY_STORAGE_SETTINGS = "settings";
 
@@ -53,7 +55,12 @@ const Main = ({ navigation }) => {
   };
 
   const onPressNumerology = async () => {
+    if (!onValidate()) {
+      return;
+    }
+
     setLoading(true);
+
     await loadAdInterstitial();
 
     let result = numerology(name, birthday);
@@ -67,6 +74,10 @@ const Main = ({ navigation }) => {
   };
 
   const onPressHoroscope = async () => {
+    if (!onValidate()) {
+      return;
+    }
+
     setLoading(true);
 
     await loadAdInterstitial();
@@ -80,6 +91,44 @@ const Main = ({ navigation }) => {
     }
 
     setLoading(false);
+  };
+
+  const onValidate = () => {
+    if (name === undefined || name.trim() === "") {
+      Alert.alert("Atenção!", "Para prosseguir, informe seu nome completo.");
+      return false;
+    }
+
+    if (name.split(" ").length < 2) {
+      Alert.alert("Atenção!", "Para prosseguir, informe seu nome completo.");
+      return false;
+    }
+
+    if (birthday === undefined || birthday === "") {
+      Alert.alert(
+        "Atenção!",
+        "Para prosseguir, informe sua data de nascimento."
+      );
+      return false;
+    }
+
+    if (Number(moment(birthday).format("YYYY")) < 1000) {
+      Alert.alert(
+        "Atenção!",
+        "Para prosseguir, informe uma data de nascimento válida."
+      );
+      return false;
+    }
+
+    if (!moment(birthday.split("/").reverse().join("-")).isValid()) {
+      Alert.alert(
+        "Atenção!",
+        "Para prosseguir, informe uma data de nascimento válida."
+      );
+      return false;
+    }
+
+    return true;
   };
 
   return (

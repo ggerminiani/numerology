@@ -2,7 +2,7 @@
   "expo": {
     "name": "zenme",
     "slug": "numerology",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./src/assets/zenme.png",
     "splash": {
@@ -31,7 +31,7 @@
         "googleMobileAdsAppId": "ca-app-pub-2035092180433983~2133891245"
       },
       "package": "com.ggerminiani.zenme",
-      "versionCode": 2
+      "versionCode": 3
     },
     "sdkVersion": "40.0.0"
   }
